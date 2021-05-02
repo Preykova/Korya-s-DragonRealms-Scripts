@@ -4,7 +4,7 @@ var COUNT 0
 if_1 then var DRAIN %1
 if_2 then var DRAIN %1_%2
 eval DRAIN tolower("%DRAIN")
-
+ 
 FIND:
 eval SKILL element("%SKILLS","%COUNT")
 if %SKILL = nothing then goto ERROR
