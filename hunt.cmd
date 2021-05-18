@@ -45,8 +45,95 @@ if_2 then var COMMANDS %COMMANDS|%2
 if_3 then var COMMANDS %COMMANDS|%3
 if_4 then var COMMANDS %COMMANDS|%4
 if_5 then var COMMANDS %COMMANDS|%5
+#
+# Commands list:
+# noskin -- turn off kill looting
+# stealthoff -- turn off hiding
+# home -- use the .home script to return home after the hunt is complete
+# quit -- log out when the hunt is complete
+# empath -- skip attacks and only do TM/Debil/bobbing for tactics, until armors are mindlocked
+# 
 
 #### #### #### ### ### ### ## ## ## - USER VARIABLES - ## ## ## ### ### ### #### #### ####
+# 
+#    var GUILD [MoonMage|Thief|Barbarian|Empath|Bard|Ranger|etc]
+#    var SPELLPREP [Your basic spell prep messaging; can be several, seperated by a | ]
+#    var CAMBRINTH [0 = none, or can't use while worn yet; else, the noun of what you want to use]
+#    var STONEPACK [the noun of the container where you want to store gweth stones]
+#    var ARRANGE_ALL [0 for normal 5 arranges, 1 if you have the crafting technique for arrange all]
+#    var REFILL_RATE [1-33]-- when a skill drains to this level, the script will train it again before ending
+#    var START_RATE [1-33]-- when a skill is ABOVE this level on startup, the skill will NOT be trained
+#    var DUAL_LOAD [0 if you cannot dual load, 1 if you can]
+#    
+#    var STANCE [60 60 60 100]--basic stance to return to after ranged training]
+#    var EMPATH_STANCE [83 100 0 100]--stance to use when using the "empath" command 
+#
+#    var TRAINING_MAX_DEPTH [1-13]--the amount of weapon types to train
+#    var TRAINING_LIST [Large_Edged|Twohanded_Edged|Heavy_Thrown|Brawling]-- weapon type name list, use name from vars listed below
+#    var SWAPPABLES [Small_Edged|Twohanded_Edged]--weapon types that can swap 
+#
+#    var Small_Edged [short of the weapon for this weapon type]
+#    var Large_Edged [can leave blank if not used]
+#    var Twohanded_Edged [short of the weapon for this weapon type]
+#    var Small_Blunt [short of the weapon for this weapon type]
+#    var Large_Blunt [short of the weapon for this weapon type]
+#    var Twohanded_Blunt [short of the weapon for this weapon type]
+#    var Polearms [short of the weapon for this weapon type]
+#    var Staves [short of the weapon for this weapon type]
+#    
+#    var Light_Thrown [short of the weapon for this weapon type]
+#    var Heavy_Thrown [short of the weapon for this weapon type]
+#    var Slings [short of the weapon for this weapon type]
+#    var Slings_Ammo [short of the ammo used for this weapon type]
+#    var Bow [short of the weapon for this weapon type]
+#    var Bow_Ammo [short of the ammo used for this weapon type]
+#    var Crossbow [short of the weapon for this weapon type]
+#    var Crossbow_Ammo [short of the ammo used for this weapon type]
+#
+#    var ARMOR_MAX_DEPTH [1-5]--amount of skills to mindlock when using "empath" command
+#    var ARMORS [Light_Armor|Chain_Armor|Plate_Armor|Brigandine|Shield_Usage]-- skill names for the above
+#
+#    var BUFFS [0-##]--amount of buff spells to keep active; one can be cyclic, debilitation spells can be used too
+#    var BUFF_FULL [Shadows|Seer's Sense|Cage of Light|Shadow Web|Pyschic Shield]--proper long list of spell names, for $preparedspell 
+#    var BUFF_SHORT [Shadows|SeersSense|CageofLight|ShadowWeb|PsychicShield]--compact list of spell names, for $SpellTimer variables
+#    var BUFF_ABBREV [Shadows|Seer|COL|SHW|Psy]--spell name abbreviations for the parser to use
+#    var BUFF_RELEASE [0|0|0|1|0]--0 normal, 1 to release the spell after the hunt is over to avoid criminal charges
+#    var BUFF_CAST [0|0|moon|creature|0]--0 normal, moon will convert to Katamba/Yavash/Xibar, creature/area/all for AOE options
+#    var BUFF_MANA [5|15|15|15|5]--base mana for each spell
+#    var BUFF_CHARGE [32|32|32|0|32]--amount of mana to put into cambrinth, 0 skips cambrinth use
+#
+#    var TM_SPELLS [1]--see BUFFS
+#    var TM_FULL [Dinazen Olkar]--see BUFF_FULL
+#    var TM_SHORT [DO]--see BUFF_ABBREV
+#    var TM_CAST [0]--see BUFF_CAST
+#    var TM_MANA [7]--see BUFF_MANA
+#    var DEBIL_SPELLS [2]--see BUFFS
+#    var DEBIL_FULL [Sleep|Dazzle]--see BUFF_FULL
+#    var DEBIL_SHORT [Sleep|Dazzle]--see BUFF_ABBREV
+#    var DEBIL_CAST [0|0]--see BUFF_CAST
+#    var DEBIL_MANA [9|9]--see BUFF_MANA
+#
+#    var APPRAISE [ON|OFF]--appraise each enemy after facing them
+#    var OFFHAND [ON|OFF]--use small weapons in lefthand until $Offhand.LearningRate is full
+#    var BACKSTAB [ON|OFF]--backstab for thieves
+#    var STEALTH [ON|OFF]--hiding before attacking
+#    var TARGETEDMAGIC [ON|OFF]--using targeted magic
+#    var DEBILITATION [ON|OFF]--using debilitation magic
+#
+#    var AMBUSH [ambush stun]--ambush attack to use with thieves
+#    var TACTICAL_KHRI_MAX [5]--amount of khri to use for normal hunting
+#    var STEALTH_KHRI_MAX [5]--amount of khri to use when hiding/backstabbing
+#    var RANGED_KHRI_MAX [3]--amount of khri to use when using a ranged weapon    
+#    
+#    var TACTICAL_KHRI [Prowess|Sagacity|Avoidance|Terrify|Harrier]--khri to use normally
+#    var STEALTH_KHRI [Prowess|Sagacity|Shadowstep|Dampen|Darken]--khri to use when hiding/backstabbing
+#    var RANGED_KHRI [Prowess|Sagacity|Steady]--khri to use when training ranged
+#    (note that all Khri not listed in the active category will be disabled)
+#
+#    var BUFF_RELEASE_MESSAGING [the messages that show when you release your cyclics]
+#
+
+var BUFF_RELEASE_MESSAGING You cease your shadow weaving|The final tones of your enchante end with an abrupt flourish
 
 if $charactername = Cleyra then
     {
@@ -86,19 +173,24 @@ if $charactername = Cleyra then
     var ARMOR_MAX_DEPTH 1
     var ARMORS Light_Armor
 
-    var BUFFS 3
-    var BUFF_FULL Shadows|Seer's Sense|Cage of Light|Pyschic Shield
-    var BUFF_SHORT Shadows|SeersSense|CageofLight|PsychicShield
-    var BUFF_ABBREV Shadows|Seer|COL|Psy
-    var BUFF_MANA 5|15|15
-    var BUFF_CHARGE 32|32|32
-    var TM_SPELLS 2
-    var TM_FULL Dinazen Olkar|Burn
-    var TM_SHORT DO|Burn
-    var TM_MANA 7|9
-    var DEBIL_SPELLS 2
+    var BUFFS 4
+    var BUFF_FULL Shadows|Seer's Sense|Cage of Light|Shadow Web|Pyschic Shield
+    var BUFF_SHORT Shadows|SeersSense|CageofLight|ShadowWeb|PsychicShield
+    var BUFF_ABBREV Shadows|Seer|COL|SHW|Psy 
+    var BUFF_RELEASE 0|0|0|1|0
+    var BUFF_CAST 0|0|moon|creature|0
+    var BUFF_MANA 5|15|15|15|5
+    var BUFF_CHARGE 32|32|32|0|32
+
+    var TM_SPELLS 1
+    var TM_FULL Dinazen Olkar
+    var TM_SHORT DO
+    var TM_CAST 0
+    var TM_MANA 7
+    var DEBIL_SPELLS 0
     var DEBIL_FULL Sleep|Dazzle
     var DEBIL_SHORT Sleep|Dazzle
+    var DEBIL_CAST 0|0
     var DEBIL_MANA 9|9
 
     var APPRAISE ON
@@ -107,59 +199,6 @@ if $charactername = Cleyra then
     var STEALTH ON
     var TARGETEDMAGIC ON
     var DEBILITATION ON
-    }
-
-if $charactername = Oreva then
-    {
-    var GUILD Thief
-    var STONEPACK bag
-    var ARRANGE_ALL 1
-    var REFILL_RATE 25
-    var START_RATE 30
-    var DUAL_LOAD 0
-    
-    var STANCE 60 60 60 100
-
-    var TRAINING_MAX_DEPTH 4
-    var TRAINING_LIST Brawling|Light_Thrown|Small_Edged|Small_Blunt
-    var SWAPPABLES 0
-
-    var Small_Edged hand sickle
-    var Large_Edged 0
-    var Twohanded_Edged 0
-    var Small_Blunt wooden bola
-    var Large_Blunt 0
-    var Twohanded_Blunt 0
-    var Polearms 0
-    var Staves 0
-    
-    var Light_Thrown wooden bola
-    var Heavy_Thrown 0
-    var Slings 0
-    var Slings_Ammo 0
-    var Bow shortbow
-    var Bow_Ammo boar-tusk arrow
-    var Crossbow 0
-    var Crossbow_Ammo 0
-
-    var ARMOR_MAX_DEPTH 1
-    var ARMORS Light_Armor
-
-    var AMBUSH 0
-    var TACTICAL_KHRI_MAX 3
-    var STEALTH_KHRI_MAX 3
-    var RANGED_KHRI_MAX 3    
-    
-    var TACTICAL_KHRI Prowess|Focus|Avoidance
-    var STEALTH_KHRI Prowess|Dampen|Darken
-    var RANGED_KHRI Prowess|Focus|Avoidance
-
-    var APPRAISE ON
-    var OFFHAND ON
-    var BACKSTAB ON
-    var STEALTH ON
-    var TARGETEDMAGIC OFF
-    var DEBILITATION OFF
     }
     
 if $charactername = Korya then
@@ -205,15 +244,20 @@ if $charactername = Korya then
     var BUFF_FULL Regenerate|Iron Constitution
     var BUFF_SHORT Regenerate|IronConstitution
     var BUFF_ABBREV Regen|IC
+    var BUFF_RELEASE 0|0
+    var BUFF_CAST 0|0
     var BUFF_MANA 9|32
     var BUFF_CHARGE 0|32
+
     var TM_SPELLS 1
     var TM_FULL Paralysis
     var TM_SHORT Paralysis
+    var TM_CAST 0
     var TM_MANA 10
     var DEBIL_SPELLS 1
     var DEBIL_FULL Lethargy
     var DEBIL_SHORT Lethargy
+    var DEBIL_CAST 0
     var DEBIL_MANA 10
 
     var APPRAISE ON
@@ -323,7 +367,6 @@ if $Crossbow.LearningRate        >= %START_RATE then var Do_Crossbow OFF
 var ALLKHRI Avoidance|Calm|Credence|Cunning|Dampen|Darken|Eliminate|Elusion|Endure|Evanescence|Flight|Focus|Guile|Harrier|Hasten|Intimidate|Muse|Plunder|Prowess|Safe|Sagacity|Sensing|Serenity|Shadowstep|Sight|Silence|Slight|Steady|Strike|Terrify|Vanish|0
 var APPLIST blank|first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth|eleventh|twelfth
 var MOONSPELLS Cage of Light|Whole Displacement|Burn|Moonblade|Dazzle
-var MOONTARGETSPELLS Cage of Light|Moonblade
 var STARSPELLS Starlight Sphere
 var TRAINING_DEPTH 0
 var KHRI_DEPTH 0
@@ -363,7 +406,7 @@ gosub RETREAT
 pause 0.5
 put observe sky
 matchre MOONCHECK ^\.\.\.wait|^You are still stunned|^Sorry\,
-matchre RETURN ^Roundtime\:
+matchre RETURN ^Roundtime\:|^That's a bit hard to do while inside\.
 matchwait
 
 
@@ -681,6 +724,7 @@ eval BUFFSPELL_SHORT element("%BUFF_SHORT","%BUFFCHECK")
 eval BUFFSPELL_ABBREV element("%BUFF_ABBREV","%BUFFCHECK")
 eval BUFFSPELL_MANA element("%BUFF_MANA","%BUFFCHECK")
 eval BUFFSPELL_CHARGE element("%BUFF_CHARGE","%BUFFCHECK")
+eval DO_SPELL_CAST element ("%BUFF_CAST","%BUFFCHECK")
 if $SpellTimer.%BUFFSPELL_SHORT.active = 0 then gosub PREP_BUFF
 math BUFFCHECK add 1
 if %BUFFCHECK >= %BUFFS then return
@@ -749,6 +793,27 @@ matchre RETURN since the Victory of Lanival the Redeemer\.$
 matchwait
 
 
+RELEASE_BUFFS:
+var BUFFS_RELEASED 0
+
+RELEASE_BUFFS_LOOP:
+if %BUFFS_RELEASED = %BUFFS then return
+eval BUFFSPELL_SHORT element("%BUFF_SHORT","%BUFFS_RELEASED")
+eval BUFFSPELL_ABBREV element("%BUFF_ABBREV","%BUFFS_RELEASED")
+eval BUFFSPELL_RELEASE element("%BUFF_RELEASE","%BUFFS_RELEASED")
+math BUFFS_RELEASED add 1
+if %BUFFSPELL_RELEASE = 1 then 
+	{
+	if $SpellTimer.%BUFFSPELL_SHORT.active = 1 then goto DO_RELEASE_BUFFS
+	}
+goto RELEASE_BUFFS_LOOP
+
+DO_RELEASE_BUFFS:
+pause 0.1
+put release %BUFFSPELL_ABBREV
+matchre DO_RELEASE_BUFFS ^\.\.\.wait|^You are still stunned|^Sorry\,
+matchre RELEASE_BUFFS_LOOP ^%BUFF_RELEASE_MESSAGING
+matchwait
 
 
 #### #### #### ### ### ### ## ## ## - TARGETED, DEBILITATION MAGIC - ## ## ## ### ### ### #### #### ####
@@ -773,6 +838,7 @@ if %DEBIL_SPELLS = 0 then goto MAGIC_PREP_TM
 if %DEBIL_CYCLE >= %DEBIL_CYCLE_MAX then var DEBIL_CYCLE 0 
 eval DO_SPELL element("%DEBIL_FULL","%DEBIL_CYCLE")
 eval DO_SPELL_MANA element("%DEBIL_MANA","%DEBIL_CYCLE")
+eval DO_SPELL_CAST element ("%DEBIL_CAST","%DEBIL_CYCLE")
 math DEBIL_CYCLE add 1
 var DO_SPELL_TYPE DEBIL
 goto MAGIC_PREP_REAL    
@@ -784,6 +850,7 @@ var SPELLREADY 0
 if %TM_CYCLE >= %TM_CYCLE_MAX then var TM_CYCLE 0 
 eval DO_SPELL element("%TM_SHORT","%TM_CYCLE")
 eval DO_SPELL_MANA element("%TM_MANA","%TM_CYCLE")
+eval DO_SPELL_CAST element ("%TM_CAST","%TM_CYCLE")
 math TM_CYCLE add 1
 var DO_SPELL_TYPE TM
     
@@ -822,15 +889,16 @@ if matchre ("$preparedspell", "%TM_FULL") then
 if %SPELLREADY = 0 then return
 
 CAST:
-var CAST_VARIABLE
+if %DO_SPELL_CAST = 0 then var DO_SPELL_CAST 
 pause 0.5
-if matchre ("$preparedspell","%MOONTARGETSPELLS") then
+if matchre ("%DO_SPELL_CAST","moon") then
 	{
-	if $moonKatamba = Up then var CAST_VARIABLE Katamba
-	if $moonYavash = Up then var CAST_VARIABLE Yavash
-	if $moonXibar = Up then var CAST_VARIABLE Xibar
+	if $moonKatamba = Up then var DO_SPELL_CAST Katamba
+	if $moonYavash = Up then var DO_SPELL_CAST Yavash
+	if $moonXibar = Up then var DO_SPELL_CAST Xibar
+	if %DO_SPELL_CAST = moon then goto RELEASE
 	}
-put cast %CAST_VARIABLE
+put cast %DO_SPELL_CAST
 matchre CAST ^\.\.\.wait|^You are still stunned|^Sorry\,
 matchre MAGIC_PREP ^Maintaining two cyclic spells at once|^Your concentration slips for|backfire|backfires|^Currently lacking the skill to complete the pattern
 matchre RETURN ^Roundtime\:|^You gesture\.|^You place your hands on your temples.|^You release an accompaniment of elemental aether|^You don't have a spell
@@ -845,9 +913,8 @@ var TMREADY 0
 var SPELLREADY 0
 put release spell
 matchre RELEASE ^\.\.\.wait|^You are still stunned|^Sorry\,
-matchre RETURN ^There is nothing else to face\!$|^You are not engaged to anything\, so you must specify a target to focus on\!$|^This spell cannot be targeted\.
+matchre RETURN ^You aren't preparing a spell\.|^You let your concentration lapse and feel the spell's energies dissipate\.
 matchwait 
-
 
 
 
@@ -964,7 +1031,14 @@ return
 WIELD:
 if %WEAPON = Brawling then return
 var SHEATHE sheathe
+var CONTAINER
 var WIELD wield right
+goto DO_WIELD
+
+WIELD_EDDY:
+var SHEATHE put
+var CONTAINER in my portal
+var WIELD get
 goto DO_WIELD
 
 REMOVE:
@@ -976,9 +1050,10 @@ pause 0.5
 matchre DO_WIELD ^\.\.\.wait|^You are still stunned|^Sorry\,|^You are too exhausted to be able to pick that up\!
 matchre SWAP_CHECK ^You draw|^You're already holding|^You remove|^You sling|^You deftly remove|^You aren't wearing that\.
 matchre PICKUP_CERTAIN ^You find it difficult to wield (.*) as it is lying at your feet\!$
-matchre REMOVE You'll need to remove it first\!$
+matchre REMOVE ^You'll need to remove it first\!$
+matchre WIELD_EDDY ^You can't seem to find .* in your inventory\!
 matchre SHEATHE_WHOOPS ^You need to have your right hand free to draw your
-put %WIELD my %WEAPON
+put %WIELD my %WEAPON %CONTAINER
 matchwait 
 
 SWAP_CHECK:
@@ -1011,7 +1086,7 @@ var SHEATHE stow
 
 SHEATHE_WHOOPS:
 pause 0.5
-put %SHEATHE my $righthand
+put %SHEATHE my $righthand %CONTAINER
 matchre SHEATHE_WHOOPS ^\.\.\.wait|^You are still stunned|^Sorry\,
 matchre WEAR ^Sheathe your .* where\?
 matchre WIELD ^You sheathe|^You sling|^You attach|^You hang|^You put|^Sheathing|^You easily strap
@@ -1029,7 +1104,7 @@ var WIELD remove
 SHEATHE:
 if %WEAPON = Brawling then return
 pause 0.5
-put %SHEATHE my %WEAPON
+put %SHEATHE my %WEAPON %CONTAINER
 matchre SHEATHE ^\.\.\.wait|^You are still stunned|^Sorry\,
 matchre RETURN ^You sheathe|^You sling|^You attach|^You hang|^You put|^Sheathing|^You easily strap
 matchre PICKUP_SHEATHE ^You need to be holding|^Shouldn\'t you be holding|^Sheathe what\?$
@@ -1119,26 +1194,37 @@ gosub BUFFCHECK
 gosub MAGIC_CAST
 gosub LOOK
 if %APPRESET = 1 then gosub APPRAISE
-gosub CHECKSTANCE
 gosub BOB_DANCE
-var MANA 0
-if $health <= 90 then var MANA 15
-if $health <= 80 then var MANA 20
-if $health <= 70 then var MANA 25
-if $health <= 60 then var MANA 30
-if $health <= 50 then var MANA 40
-if %MANA = 0 then goto DANCING
+var VH_MANA 0
+var VH_SPELL Vitality Heal
+if $health <= 90 then var VH_MANA 15
+if $health <= 80 then var VH_MANA 20
+if $health <= 70 then var VH_MANA 25
+if $health <= 60 then var VH_MANA 30
+if $health <= 50 then var VH_MANA 40
+if $health <= 40 then 
+	{
+	var VH_MANA 5
+	var VH_SPELL Innocence
+	}
+if %VH_MANA = 0 then goto DANCING
 if %GUILD != Empath then goto DANCING
-if !matchre ("$preparedspell", "none") then goto DANCING
+gosub RELEASE
 
 VITALITY:
-pause 0.5
-put prep VH %MANA
+pause 0.2
+put prep VH %VH_MANA
 matchre VITALITY ^\.\.\.wait|^You are still stunned|^Sorry\,|^\[Enter your command again
 matchre VITALITY_BOB %SPELLPREP|^You are already preparing|^But you\'re already preparing
 matchwait
 
 VITALITY_BOB:
+if %MANA = 5 then 
+	{
+	pause 2
+	gosub CAST
+	goto GETOUT_END
+	}
 if %MANA = 15 then var BOB 1
 if %MANA = 20 then var BOB 2
 if %MANA = 25 then var BOB 2
@@ -1230,7 +1316,7 @@ gosub CHECKSTANCE
 pause 0.5
 if {"%OFFHAND" = "OFF" OR "%WEAPON" = "Brawling"} then put attack
 if {"%OFFHAND" = "ON" AND "%WEAPON" != "Brawling"} then put attack left
-matchre PLAIN_ATTACK ^\.\.\.wait|^You are still stunned|^Sorry\,
+matchre PLAIN_ATTACK ^\.\.\.wait|^You are still stunned|^Sorry\,|^You can not slam
 matchre FACE ^Wouldn't it be better if you used
 matchre ADVANCE ^You aren\'t close enough to attack\.$
 matchre SHEATHE_LOOT ^You turn to face|^There is nothing else to face\!$|(balance|balanced)\]$
@@ -1452,7 +1538,7 @@ if {"%OFFHAND" = "OFF" OR "%SPECIAL_CYCLE" = "0"} then
     if $hidden = 0 then put attack 
     if $hidden = 1 then put %SPECIAL
     }
-matchre STEALTH_ATTACK_HIDDEN ^\.\.\.wait|^You are still stunned|^Sorry\,
+matchre STEALTH_ATTACK_HIDDEN ^\.\.\.wait|^You are still stunned|^Sorry\,|^You can not slam
 matchre SHEATHE_LOOT (balance|balanced)\]$|^There is nothing else to face\!$
 matchre STEALTH_ADVANCE ^It would help if you were closer|^You aren't close enough to attack\.$|^What are you trying to attack\?
 matchre STEALTH_CYCLE_UP ^Roundtime\:|^\[Roundtime|^You don't think you have enough focus to do that\.$
@@ -1494,6 +1580,7 @@ matchre SHEATHE_LOOK ^There is nothing else to face\!$
 matchwait
 
 THROW_PICKUP_CERTAIN:
+if matchre ("$righthand|$lefthand", "%WEAPON") then goto LOB
 gosub PICKUP_CERTAIN
 goto LOB
 
@@ -1724,7 +1811,7 @@ STONE_KYANITE:
 var STOW kyanite stone
 goto STONE_GET
 
-STONE_JADEITE:
+STONE_JADEITEI:
 var STOW jadeite stone
 goto STONE_GET
 
@@ -1755,28 +1842,52 @@ matchwait
 
 
 LOOTEND:
-echo
-echo 
-echo
-echo * * * OOPS! TOO MUCH LOOT! * * *
-echo
-echo
-echo  * * * PICK UP YOUR MESS! * * *
-echo
-echo
-echo
+gosub RELEASE_BUFFS
+put #echo
+put #echo 
+put #echo
+put #echo yellow * * * OOPS! TOO MUCH LOOT! * * *
+put #echo
+put #echo
+put #echo yellow * * * PICK UP YOUR MESS! * * *
+put #echo
+put #echo
+put #echo
 put #flash
 exit
 
-END:
-echo
-echo
-echo
-echo * * * ALL DONE HERE! * * *
-echo
-echo
-echo
+GETOUT_END:
+put #echo
+put #echo 
+put #echo
+put #echo red * * * YOU'RE GETTING TOO HURT! LEAVE NOW! * * *
+put #echo
+put #echo
+put #echo
 put #flash
+put .healthcheck
+# this script is one you can make on your own:
+# CHECK:
+# pause 
+# if $stunned = 1 then put quit
+# if $health <= 40 then put quit
+# goto CHECK
+# ^ may be against rules if you're PVP Open and were stunned by another player.
+# Otherwise, at this point in the script, you should have Innocence up, and therefore be done hunting, so I don't see how its a problem.
+goto END_COMMANDS
+
+END:
+gosub RELEASE_BUFFS
+put #echo
+put #echo
+put #echo
+put #echo lime * * * ALL DONE HERE! * * *
+put #echo
+put #echo
+put #echo
+put #flash
+
+END_COMMANDS:
 if matchre ("%COMMANDS","quit") then
 	{
 	put stow box
@@ -1787,4 +1898,17 @@ if matchre ("%COMMANDS","quit") then
 	pause
 	put quit
 	}
+if matchre ("%COMMANDS","home") then
+	{
+	pause 2
+	put .healthcheck
+	goto END_HOME
+	}
+EXIT:
 exit
+
+END_HOME:
+put .home
+matchre EXIT ^SAFE\!
+matchwait 60
+goto END_HOME
