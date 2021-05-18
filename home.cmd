@@ -183,7 +183,8 @@ gosub AUTOMAPPER 142
 exit
 
 AUTOMAPPER:
-if matchre ("$1 $2","$roomid") then return
+var ROOM $1 $2
+if $roomid = %ROOM then return
 put #goto $1 $2
 matchre RETURN ^YOU HAVE ARRIVED
 matchwait 60
