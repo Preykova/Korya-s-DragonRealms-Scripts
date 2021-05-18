@@ -1048,10 +1048,10 @@ var WIELD remove
 DO_WIELD:
 pause 0.5
 matchre DO_WIELD ^\.\.\.wait|^You are still stunned|^Sorry\,|^You are too exhausted to be able to pick that up\!
-matchre SWAP_CHECK ^You draw|^You're already holding|^You remove|^You sling|^You deftly remove|^You aren't wearing that\.
-matchre PICKUP_CERTAIN ^You find it difficult to wield (.*) as it is lying at your feet\!$
+matchre SWAP_CHECK ^You draw|^You get|^You're already holding|^You remove|^You sling|^You deftly remove|^You aren't wearing that\.
+matchre PICKUP_CERTAIN ^You find it difficult to wield (.*) as it is lying at your feet\!$|^You can't seem to find (.*) in your inventory\!
 matchre REMOVE ^You'll need to remove it first\!$
-matchre WIELD_EDDY ^You can't seem to find .* in your inventory\!
+matchre WIELD_EDDY ^Wield what\?
 matchre SHEATHE_WHOOPS ^You need to have your right hand free to draw your
 put %WIELD my %WEAPON %CONTAINER
 matchwait 
@@ -1090,7 +1090,7 @@ put %SHEATHE my $righthand %CONTAINER
 matchre SHEATHE_WHOOPS ^\.\.\.wait|^You are still stunned|^Sorry\,
 matchre WEAR ^Sheathe your .* where\?
 matchre WIELD ^You sheathe|^You sling|^You attach|^You hang|^You put|^Sheathing|^You easily strap
-matchre SHEATH_STOW_WHOOPS ^You can't wear that\!
+matchre SHEATHE_STOW_WHOOPS ^You can't wear that\!
 matchwait
 
 SHEATHE_STOW:
@@ -1109,7 +1109,7 @@ matchre SHEATHE ^\.\.\.wait|^You are still stunned|^Sorry\,
 matchre RETURN ^You sheathe|^You sling|^You attach|^You hang|^You put|^Sheathing|^You easily strap
 matchre PICKUP_SHEATHE ^You need to be holding|^Shouldn\'t you be holding|^Sheathe what\?$
 matchre WEAR ^Sheathe your .* where\?
-matchre SHEATH_STOW ^You can't wear that\!
+matchre SHEATH_STOW_WHOOPS ^You can't wear that\!
 matchwait
 
 SHEATHE_LOOT:
