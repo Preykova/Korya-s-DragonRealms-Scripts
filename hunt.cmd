@@ -17,14 +17,14 @@ action var TACTIC1 $2 when by landing (a|an) (\w+)
 action var TACTIC2 $5 when by landing (a|an) (\w+)(,| and) (a|an) (\w+)
 action var TACTIC3 $7 when by landing (a|an) (\w+), (a|an) (\w+)(,| and) (a|an) (\w+)
 action var TACTIC4 $8 when by landing (a|an) (\w+), (a|an) (\w+), (a|an) (\w+) and (a|an) (\w+)
-action var MONSTERSHORT $1 when ^You turn to face .* (\w+)(\.|,)
-action var MONSTERSHORT $2 when ^You .* are (facing|flanking|behind) .* (\w+) \(.*\)
+action var MONSTERSHORT $1 when ^You turn to face .* (.*)(\.|,)
+action var MONSTERSHORT $2 when ^You .* are (facing|flanking|behind) .* (.*) \(.*\)
 action var MONSTERSHORT pile of rubble when ^A rock guardian collapses into a pile of stone rubble\.
 action var MONSTERFULL $1 when ^You turn to face (.*)(\.|,)
 action var MONSTERFULL $2 when ^You .* are (facing|flanking|behind) (.*)(\(.*)
-action var MONSTERAPP $3 when ^You .* are (facing|flanking|behind) .* (\w+) \((\d)\)
+action var MONSTERAPP $3 when ^You .* are (facing|flanking|behind) .* (.*) \((\d)\)
 action var APPRESET 1 when ^You turn to face
-action var APPRESET 0 when ^You .* are (facing|flanking|behind) .* (\w+) \(
+action var APPRESET 0 when ^You .* are (facing|flanking|behind) .* (.*) \(
 
 action var TACTICDEPTH 1 when by landing (a|an) (\w+)\.$
 action var TACTICDEPTH 2 when by landing (a|an) (\w+) and (a|an) (\w+)\.$
@@ -555,7 +555,7 @@ var APPRESET 0
 pause 0.5
 put appraise %APPNUMBER %MONSTERSHORT quick
 matchre APPRAISE_ACTION ^\.\.\.wait|^You are still stunned|^Sorry\,
-matchre RETURN ^You cannot appraise that when you are in combat\!|^\[Roundtime\:|^Taking stock
+matchre RETURN ^You cannot appraise that when you are in combat\!|^\[Roundtime\:|^Taking stock|^Appraise what\?
 matchwait
 
 
