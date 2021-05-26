@@ -1842,7 +1842,7 @@ matchwait
 
 
 LOOTEND:
-gosub RELEASE_BUFFS
+if %BUFFS > 0 then gosub RELEASE_BUFFS
 put #echo
 put #echo 
 put #echo
@@ -1877,7 +1877,7 @@ put .healthcheck
 goto END_COMMANDS
 
 END:
-gosub RELEASE_BUFFS
+if %BUFFS > 0 then gosub RELEASE_BUFFS
 put #echo
 put #echo
 put #echo
