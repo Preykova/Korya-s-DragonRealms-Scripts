@@ -1770,6 +1770,7 @@ matchwait 3
 ROOMLOOT_FILL:
 var APPRESET 1
 put /timers start LOOT
+if matchre ("%COMMANDS","noskin") then RETURN
 pause 2
 
 ROOMLOOT:
