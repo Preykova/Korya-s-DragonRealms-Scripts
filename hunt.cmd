@@ -120,7 +120,7 @@ if_5 then var COMMANDS %COMMANDS|%5
 #    var TARGETEDMAGIC [ON|OFF]--using targeted magic
 #    var DEBILITATION [ON|OFF]--using debilitation magic
 #
-#    var AMBUSH [ambush stun]--ambush attack to use with thieves
+#    var AMBUSH [0|ambush stun|ambush slash]--ambush attack to use with thieves; 0 for no special ambush
 #    var TACTICAL_KHRI_MAX [5]--amount of khri to use for normal hunting
 #    var STEALTH_KHRI_MAX [5]--amount of khri to use when hiding/backstabbing
 #    var RANGED_KHRI_MAX [3]--amount of khri to use when using a ranged weapon    
