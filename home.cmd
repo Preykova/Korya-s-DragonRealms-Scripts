@@ -4,6 +4,18 @@ if matchre ("$charactername", "Cleyra") then var GUILD moonmage
 if matchre ("$charactername", "xxx") then var GUILD thief
 if matchre ("$charactername", "xxx") then var GUILD ranger
 
+if_1 then
+	{
+	eval 1 tolower(%1)
+	if matchre ("%1","ore|orev|oreva|ayl|ayli|aylian|ayliana|end|endar|endari|endaria") then var DESTINATION Oreva
+	if matchre ("%1","vi|viy|viya|viyal|viyalo|rhatt") then var DESTINATION Viyalo
+	if matchre ("%1","cl|cle|cley|cleyr|cleyra") then var DESTINATION Cleyra
+	if matchre ("%1","ke|kei|kein|keinr|keinru|keinruf|ket|keth|kethr|kethra|keithrai") then var DESTINATION Keinruf
+	if matchre ("%1","ko|kor|kory|korya") then var DESTINATION Korya
+	if matchre ("%1","nat|nati|natip|natipo|natipoh|natipoha|natipohak|natipohaka") then var DESTINATION Natipohaka
+	}
+else var DESTINATION $charactername
+
 if "$zonename" = "The Crossing" then goto CROSSING
 if "$zonename" = "Crossing Temple" then goto TEMPLE
 if "$zonename" = "Sorrow's Reach" then goto REACH
@@ -20,7 +32,10 @@ if "$zonename" = "Fang Cove" then goto FANG_COVE
 if "$zonename" = "Southern Trade Road Part 1 (Ferry to Leth Deriel)" then goto SILVERCLAW
 if "$zonename" = "Riverhaven" then goto RIVERHAVEN
 if "$zonename" = "Riverhaven East Gate" then goto RIVERHAVEN_EASTGATE
+if "$zonename" = "Riverhaven West Gate" then goto RIVERHAVEN_WESTGATE
 if "$zonename" = "Faldesu River" then goto SWIM_RIVERHAVEN_S
+if "$zonename" = "Mistwood Forest" then goto MISTWOOD
+if "$zonename" = "Road to Therenborough" then goto MISTWOOD_SOUTH
 put #echo
 put #echo
 put #echo red You can't find the way home from here!
@@ -41,7 +56,7 @@ HOME_CLEYRA:
 
 HOME_KORYA:
 	gosub AUTOMAPPER xxx
-	var HOME residence
+	var HOME hut
 	goto ENTER_HOME
 
 FANG_COVE:
@@ -51,8 +66,7 @@ FANG_COVE:
 	pause
 
 CROSSING:
-if matchre ("%1","cl|cle|cley|cleyr|cleyra") then goto HOME_CLEYRA
-if matchre ("%1","ko|kor|kory|korya") then goto HOME_KORYA
+if matchre ("%DESTINATION","Cleyra") then goto HOME_CLEYRA
 if matchre ("%1","burgle") then 
 	{
 	gosub AUTOMAPPER xxx
@@ -60,14 +74,18 @@ if matchre ("%1","burgle") then
 	put #parse BURGLE!
 	exit
 	}
-if $charactername = Cleyra then goto HOME_CLEYRA
-if $charactername = Korya then goto HOME_KORYA
+if matchre ("%DESTINATION","Korya") then
+	{
+	gosub AUTOMAPPER ne gate
+	pause 0.5
+	goto NEGATE
+	}
 put #echo
 put #echo
-put #echo Defaulting to Korya's home.
+put #echo Defaulting to Cleyra's home.
 put #echo
 put #echo
-goto HOME_KORYA
+goto HOME_CLEYRA
 
 TEMPLE:
 gosub AUTOMAPPER crossing
@@ -84,11 +102,22 @@ pause 0.5
 goto CROSSING
 
 NGATE:
+if matchre ("%DESTINATION","Korya") then 
+	{
+	gosub AUTOMAPPER 98	
+	goto NEGATE
+	}
 gosub AUTOMAPPER 23
 pause 0.5
 goto CROSSING
 
+NEGATE_FROM_EGATE:
+gosub AUTOMAPPER 53
+pause 0.5
+
 NEGATE:
+if matchre ("%1","burgle") then goto EGATE_DETOUR
+if matchre ("%DESTINATION","Korya") then goto FALDESU
 if $invisible = 1 then goto EGATE_DETOUR
 
 NEGATE_REAL:
@@ -102,27 +131,54 @@ pause 0.5
 
 EGATE:
 if matchre ("%1","burgle") then goto EGATE_REAL
-if matchre ("%1","ko|kor|kory|korya") then goto EGATE_REAL
-if matchre ("%1","cl|cle|cley|cleyr|cleyra") then goto EGATE_REAL
-if $charactername = Natipohaka then goto HOME_NATIPOHAKA
+if matchre ("%DESTINATION","Korya") then goto NEGATE_FROM_EGATE
 
 EGATE_REAL:
 gosub AUTOMAPPER crossing
 pause 0.5
 goto CROSSING
 
+FALDESU:
+gosub AUTOMAPPER 197
+pause 0.5
+
+SWIM_RIVERHAVEN_N:
+gosub AUTOMAPPER 22
+pause 0.5
+goto RIVERHAVEN_EASTGATE
+
 RIVERHAVEN:
+if matchre ("%DESTINATION","Korya") then goto HOME_KORYA
 gosub AUTOMAPPER e gate
 pause 0.5
 
 RIVERHAVEN_EASTGATE:
+if matchre ("%DESTINATION","Korya") then
+	{
+	gosub AUTOMAPPER riverhaven
+	goto RIVERHAVEN
+	}
 put dive river
 pause
 
 SWIM_RIVERHAVEN_S:
+if matchre ("%DESTINATION","Korya") then goto SWIM_RIVERHAVEN_N
 gosub AUTOMAPPER 21
 pause 0.5
 goto NEGATE
+
+MISTWOOD:
+gosub AUTOMAPPER riverhaven
+pause 0.5
+
+MISTWOOD_SOUTH:
+gosub AUTOMAPPER riverhaven
+pause 0.5
+
+RIVERHAVEN_WESTGATE:
+gosub AUTOMAPPER riverhaven
+pause 0.5
+goto RIVERHAVEN
 
 GUARDIANS:
 gosub AUTOMAPPER 2
