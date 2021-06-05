@@ -151,8 +151,8 @@ matchwait
 
 WEAR:
 pause 0.1
-if %SLIP = 0 then put wear %ITEM
-if %SLIP = 1 then put slip %ITEM
+if %SLIP = 0 then put wear my %ITEM
+if %SLIP = 1 then put slip my %ITEM
 matchre WEAR ^\.\.\.wait|^Sorry|^You are still
 matchre SHOW ^You (slip|slide|strap|work|attach|put|place|sling|drape|pull|hang|tie|carefully|set|silently|step|wrap)|^You can't wear any more items like that\.
 matchre GET2 ^You need to be wearing that first\.
