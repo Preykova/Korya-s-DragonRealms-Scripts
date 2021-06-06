@@ -11,13 +11,18 @@
 # SLIP - 0 for normal, 1 to always do it
 # HIDER - 0 for normal, 1 for omnihider support. Will "show [item] normal" to hide instead of removing it
 # CLOTHES - list of clothing items, always start and end with 0
-# BAGS - list of bags those items go into/come from, always start and end with 0
+# BAGS - list of bags those items go into/come from, always start and end with 0 (or gibberish)
 #
 # For clothes that turn into fabric when not worn, use "[adjective] fabric-[noun]" to show that it is both fabric and the item it turns into.
 #
 # Omnihider support works by taking the noun of the item and dropping all adjectives, which may cause problems with some items, depending on what you wear.
 #
-# See examples below!
+# If a clothing item requires a position (or just for RP), then put "verb [action]" in front of the item, example: "verb stand summer dress"
+# Supported actions are: sit, stand, kneel, lie, fall
+# This is also compatible with fabrics, example: "verb sit green fabric-sarong" When wearing clothes, this will sit, get green fabric, wear green fabric, and show sarong always!
+# You can also forego the item just to do a verb in the middle of things, or at the start/end of the list to make sure you're always standing after. Remember that taking things off goes in reverse order, and putting things on goes in the order listed!
+#
+# See further examples below!
 #
 
 var CLOTHES none
@@ -94,6 +99,19 @@ math NUMBER subtract 1
 
 OFF:
 eval ITEM element("%CLOTHES","%NUMBER")
+if %ITEM = 0 then goto END
+if matchre ("%ITEM","verb") then
+	{
+	eval ACTION replacere("%ITEM","verb ","")
+	eval ACTION replacere("%ACTION"," (.*)$","")
+	eval ITEM replacere("%ITEM","verb (\w+)","")
+	gosub VERB %ACTION
+	if matchre ("%ITEM", "verb") then
+		{
+		math NUMBER subtract 1
+		goto OFF
+		}
+	}
 eval THING replacere("%ITEM","(^.*\s)","")
 var FABRIC 0
 if matchre ("%ITEM","fabric-") then
@@ -104,11 +122,23 @@ if matchre ("%ITEM","fabric-") then
 	}
 eval PACK element("%BAGS","%NUMBER")
 math NUMBER subtract 1
-if %ITEM = 0 then goto END
 goto REMOVE
 
 ON:
 eval ITEM element("%CLOTHES","%NUMBER")
+if %ITEM = 0 then goto END
+if matchre ("%ITEM","verb") then
+	{
+	eval ACTION replacere("%ITEM","verb ","")
+	eval ACTION replacere("%ACTION"," (.*)$","")
+	eval ITEM replacere("%ITEM","verb (\w+) ","")
+	gosub VERB
+	if matchre ("%ITEM", "verb") then 
+		{
+		math NUMBER add 1
+		goto ON
+		}
+	}
 eval THING replacere("%ITEM","(^.*\s)","")
 if matchre ("%ITEM","fabric-") then
 	{
@@ -117,15 +147,14 @@ if matchre ("%ITEM","fabric-") then
 	}
 eval PACK element("%BAGS","%NUMBER")
 math NUMBER add 1
-if %ITEM = 0 then goto END
-goto GET
+#goto GET
 
 GET:
 if %HIDER = 1 then goto SHOW
 pause 0.1
 if %SLIP = 0 then put get my %ITEM from my %PACK
 if %SLIP = 1 then put slip my %ITEM from my %PACK
-matchre GET ^\.\.\.wait|^Sorry|^You are still
+matchre GET ^\.\.\.wait|^Sorry\,|^You are still stunned
 matchre WEAR ^You (get|are already|remove|silently)
 matchre SHOW ^But that is already in your inventory\.$
 matchre GET2 ^What were you referring to\?$
@@ -135,7 +164,7 @@ GET2:
 pause 0.1
 if %SLIP = 0 then put get my %ITEM
 if %SLIP = 1 then put slip my %ITEM from my %PACK
-matchre GET2 ^\.\.\.wait|^Sorry|^You are still
+matchre GET2 ^\.\.\.wait|^Sorry\,|^You are still stunned
 matchre WEAR ^You (get|are already|remove|silently)
 matchre SHOW ^But that is already in your inventory\.$|^What were you referring to\?$
 matchwait
@@ -144,7 +173,7 @@ SHOW:
 if %SHOW = 0 then goto ON
 pause 0.1
 put show my %THING always
-matchre WEAR ^\.\.\.wait|^Sorry|^You are still
+matchre WEAR ^\.\.\.wait|^Sorry\,|^You are still stunned
 matchre GET2 ^You need to be wearing that first.|^You need to specify one of your own objects for that.
 matchre ON will always show when people LOOK at you\, regardless of any hider items you may be wearing\.$
 matchwait
@@ -153,7 +182,7 @@ WEAR:
 pause 0.1
 if %SLIP = 0 then put wear my %ITEM
 if %SLIP = 1 then put slip my %ITEM
-matchre WEAR ^\.\.\.wait|^Sorry|^You are still
+matchre WEAR ^\.\.\.wait|^Sorry\,|^You are still stunned
 matchre SHOW ^You (slip|slide|strap|work|attach|put|place|sling|drape|pull|hang|tie|carefully|set|silently|step|wrap)|^You can't wear any more items like that\.
 matchre GET2 ^You need to be wearing that first\.
 matchwait
@@ -166,7 +195,7 @@ if %HIDER = 0 then
 	if %SLIP = 0 then put remove my %ITEM
 	if %SLIP = 1 then put slip my %ITEM
 	}
-matchre REMOVE ^\.\.\.wait|^Sorry|^You are still
+matchre REMOVE ^\.\.\.wait|^Sorry\,|^You are still stunned
 matchre STOW ^You (remove|toss|loosen|pull|take|work|slide|aren't wearing|carefully|detach|sling|untie|slip|yank|deftly|quickly|silently)|^Untying its strings
 matchre OFF can now be hidden|^You need to be wearing|^You need to specify|^What were you referring to\?$|^Remove what\?$
 matchwait
@@ -176,8 +205,8 @@ if %FABRIC != 0 then var ITEM %FABRIC
 pause 0.1
 if %SLIP = 0 then put put my %ITEM in my %PACK
 if %SLIP = 1 then put slip my %ITEM in my %PACK
-matchre STOW ^\.\.\.wait|^Sorry|^You are still
-matchre OFF ^You put your|^Stow what?|^You silently slip
+matchre STOW ^\.\.\.wait|^Sorry\,|^You are still
+matchre OFF ^You put your|^Stow what\?|^You silently slip
 matchwait
 
 END:
@@ -198,3 +227,13 @@ put #echo
 put #echo red You appear to be missing an item!
 put #echo
 exit
+
+VERB:
+pause 0.2
+put %ACTION
+matchre VERB ^\.\.\.wait|^You are still stunned|^Sorry\,|^The weight of|^You are so over
+matchre RETURN ^You (sit|stand|kneel|fall|lie|rise|shift|climb|get off)|^You are already|^Subservient type
+matchwait
+
+RETURN:
+return
