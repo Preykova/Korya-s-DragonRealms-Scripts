@@ -72,6 +72,16 @@ put #echo
 put #echo
 exit
 
+STOP_CLIMB:
+#
+# Comment out everything but this label if you use the trigger included in the comments at the top!
+#
+pause 0.1
+put stop climb
+matchre STOP_CLIMB ^\.\.\.wait|^Sorry|^You are still stunned
+matchre WAIT ^You stop practicing your climbing skills\.
+matchwait
+
 WAIT:
 pause 8
 
