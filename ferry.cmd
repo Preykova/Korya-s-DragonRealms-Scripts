@@ -218,6 +218,7 @@ exit
 RAMP:
 pause 0.5
 put go ramp
+put #parse INRIVERHAVEN
 exit
 
 BEACH:
@@ -242,6 +243,7 @@ put #echo
 put #echo red You don't have enough money!
 put #echo
 put #flash
+put #parse NO MONEY
 
 DONE:
 exit
