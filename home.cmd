@@ -1,8 +1,12 @@
 #debug 10
+
 var GUILD none
+var ATHLETICS 0
 if matchre ("$charactername", "Cleyra") then var GUILD moonmage
 if matchre ("$charactername", "xxx") then var GUILD thief
 if matchre ("$charactername", "xxx") then var GUILD ranger
+
+action goto TRAVEL_ERROR when ^NO MONEY
 
 if_1 then
 	{
@@ -139,6 +143,14 @@ pause 0.5
 goto CROSSING
 
 FALDESU:
+gosub ATHLETICS_CHECK
+if $Athletics.Ranks <= 149 then
+	{
+	gosub AUTOMAPPER ferry
+	put .ferry
+	waitforre ^INRIVERHAVEN
+	goto RIVERHAVEN
+	}
 gosub AUTOMAPPER 197
 pause 0.5
 
@@ -149,11 +161,25 @@ goto RIVERHAVEN_EASTGATE
 
 RIVERHAVEN:
 if matchre ("%DESTINATION","Korya") then goto HOME_KORYA
+gosub ATHLETICS_CHECK
+if $Athletics.Ranks <= 149 then
+	{
+	gosub AUTOMAPPER ferry
+	put .ferry
+	waitforre ^ONNTRNOW
+	goto NEGATE
+	}
 gosub AUTOMAPPER e gate
 pause 0.5
 
 RIVERHAVEN_EASTGATE:
 if matchre ("%DESTINATION","Korya") then
+	{
+	gosub AUTOMAPPER riverhaven
+	goto RIVERHAVEN
+	}
+gosub ATHLETICS_CHECK
+if $Athletics.Ranks <= 149 then
 	{
 	gosub AUTOMAPPER riverhaven
 	goto RIVERHAVEN
@@ -246,6 +272,17 @@ matchre RETURN ^YOU HAVE ARRIVED
 matchwait 60
 goto AUTOMAPPER
 
+ATHLETICS_CHECK:
+if ATHLETICS = 1 then return
+pause 0.01
+put exp athletics
+matchre ATHLETICS_CHECK ^\.\.\.wait|^Sorry\,|^You are still stunned
+matchre ATHLETICS_CHECKED ^EXP HELP for more information
+matchwait
+
+ATHLETICS_CHECKED:
+var ATHLETICS 1
+
 RETURN:
 return
 
@@ -283,6 +320,7 @@ if %ATTEMPT = none then var ATTEMPT first
 
 TRY_ENTER:
 put move %ATTEMPT %HOME
+matchre TRY_ENTER ^\.\.\.wait|^Sorry\,|^You are still stunned|^All this
 matchre NEXT_ATTEMPT ^You don\'t have a key\.$
 matchre ENTER_HOME_ERROR ^\[Type MOVE HELP for more information\.\]$
 matchre ENTER_HOME_SUCCESS ^You walk (in|through)
@@ -300,4 +338,10 @@ goto NEXT_ATTEMPT
 
 ENTER_HOME_SUCCESS:
 put #parse INSIDE!
+exit
+
+TRAVEL_ERROR:
+put #echo
+put #echo red You need money for the ferry!
+put #echo
 exit
