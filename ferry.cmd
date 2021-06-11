@@ -196,6 +196,7 @@ exit
 SOUTH:
 pause 0.5
 move south
+if $zoneid = 7 then put #parse ONNTRNOW
 exit
 
 FRAME:
