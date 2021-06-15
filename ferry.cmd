@@ -158,7 +158,7 @@ DO_MOVE:
 pause 0.5
 put %MOVE
 matchre DO_MOVE ^\.\.\.wait|^Sorry\, you|still stunned|^The (Gnomish operator|Elothean aeromancer) says\, \"Woah there
-matchre START ^There is no ferry here|^The ferry has just pulled away|stuck here until the next one arrives\.$|^I could not find|^The ferrymaster says\, \"Sorry
+matchre START ^There is no ferry here|^The ferry has just pulled away|stuck here until the next one arrives\.$|^I could not find|^The ferrymaster says\, \"Sorry|You will have to wait for the next one\.$
 matchre DONE ^\[(%AIRSHIPBOARD)\]
 matchre NEXT_MAMMOTH ^\[Aboard the Mammoth\, Platform\]
 matchre BOARDED ^\[(%ONBOARD)\]
