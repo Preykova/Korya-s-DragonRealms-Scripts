@@ -54,7 +54,7 @@ pause 0.1
 put $0
 matchre ACTION ^\.\.\.wait|^You are still stunned|^Sorry, you may only
 matchre ELSEWHERE ^What were you
-matchre RETURN ^That's not going to work|^You (sling|put|remove|bundle|carefully|are already)|^But that is already|And there's your rope back again\.\"$
+matchre RETURN ^That's not going to work|^You (take|sling|put|remove|bundle|carefully|are already)|^But that is already|And there's your rope back again\.\"$
 matchwait
 
 RETURN:
