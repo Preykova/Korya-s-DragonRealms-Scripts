@@ -5,6 +5,7 @@ var COUNT 0
 
 if_1 then var ORIGIN %1
 if_2 then var DESTINATION %2
+if %DESTINATION = dump then var DESTINATION drop
 if_2 then goto START
 
 ERROR:
@@ -29,7 +30,7 @@ matchwait
 
 STOW:
 pause 0.01
-if matchre ("%DESTINATION","my drop") then put drop my %ITEM
+if matchre ("%DESTINATION","drop") then put drop my %ITEM
 else put put my %ITEM in my %DESTINATION
 matchre STOW ^\.\.\.wait|^Sorry|^You are still stunned
 matchre GET ^You put|^You drop
