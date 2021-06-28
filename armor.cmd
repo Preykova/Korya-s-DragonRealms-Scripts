@@ -82,12 +82,18 @@ if matchre ("%ITEM",",") then
 		}
 	goto SWAP
 	}
-if matchre ("%1","of|off") then gosub REMOVE
+if matchre ("%1","of|off") then 
+	{
+	gosub REMOVE
+	if matchre ("%ITEM","pouch") then var ITEM pouch
+	if matchre ("$righthand|$lefthand","%ITEM") then gosub STOW
+	}
 else 
 	{
 	if %SACK = 1 then var PACK large sack
 	gosub GET
-	gosub WEAR
+	if matchre ("%ITEM","pouch") then var ITEM pouch
+	if matchre ("$righthand|$lefthand","%ITEM") then gosub WEAR
 	}
 math NUMBER add 1
 goto LIST
@@ -124,8 +130,7 @@ pause 0.1
 if %SLIP = 1 then put slip my %ITEM
 if %SLIP = 0 then put get my %ITEM
 matchre GET2 ^\.\.\.wait|^Sorry\,|^You are still stunned
-matchre RETURN ^You (get|are already|remove|silently|pick up)|^But that is already in your inventory\.
-matchre ERROR ^What were you referring to\?
+matchre RETURN ^You (get|are already|remove|silently|pick up)|^But that is already in your inventory\.|^What were you referring to\?
 matchwait
 
 WEAR:
@@ -141,8 +146,7 @@ pause 0.1
 if %SLIP = 1 then put slip my %ITEM
 if %SLIP = 0 then put remove my %ITEM
 matchre REMOVE ^\.\.\.wait|^Sorry\,|^You are still stunned
-matchre STOW ^You (remove|toss|loosen|pull|take|work|slide|aren't wearing|carefully|detach|sling|untie|slip|yank|deftly|quickly|silently)|^Untying its strings|^You need to be wearing
-matchre ERROR ^What were you referring to\?|^Remove what\?
+matchre RETURN ^You (remove|toss|loosen|pull|take|work|slide|aren't wearing|carefully|detach|sling|untie|slip|yank|deftly|quickly|silently)|^Untying its strings|^You need to be wearing|^What were you referring to\?|^Remove what\?
 matchwait
 
 STOW:
@@ -150,8 +154,7 @@ pause 0.1
 if %SLIP = 1 then put slip my %ITEM in my %PACK
 if %SLIP = 0 then put put my %ITEM in my %PACK
 matchre STOW ^\.\.\.wait|^Sorry\,|^You are still stunned
-matchre RETURN ^You (put your|silently slip)
-matchre ERROR ^Stow what\?
+matchre RETURN ^You (put your|silently slip)|^Stow what\?|^What were you referring to
 matchwait
 
 DONE:
